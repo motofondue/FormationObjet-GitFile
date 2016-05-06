@@ -6,38 +6,45 @@ import java.util.Scanner;
 
 public class MainFile {
 	static Scanner reader = new Scanner(System.in);
-	
+
 	public static void main(String[] args) {
-		System.out.println("Entrez un chemin de travail :");
-		String string = inputString();
+		String string = inputString("Entrez un chemin de travail :");
 		
 		Path path = Paths.get(string);
 		
 		createPathIfNotExists(path);
 		
-		System.out.println("Voulez vous une arborescence sur 2 niveaux ? ");
-		string = inputString();
-		if (string.equals("oui")) {
-			createSubDirectories(path);
-		}
+		string = inputString("Voulez vous une arborescence sur 2 niveaux ? ");
+		if (string.equals("oui")) createSubDirectories(path);
+		
+		//TODO add .directory creation 
+		
+		//string = inputString("Rentrez le nom d'un fichier à copier: ");		
 	}
 
 	private static void createSubDirectories(Path path) {
-		// TODO Creation
 		System.out.println("Creation des sous dossiers");
+		createPathIfNotExists(path.resolve("sub1").resolve("sub2"));
 	}
 
 	private static void createPathIfNotExists(Path path) {
-		if (!Files.exists(path)){
+		if (!Files.exists(path)) {
 			try {
-				Files.createDirectory(path);
+				Files.createDirectories(path);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	private static String inputString() {
+		return inputString("");
+	}
+
+	private static String inputString(String question) {
+		if (!question.equals("")) {
+			System.out.println(question);
+		}
 		return reader.nextLine();
 	}
 }
